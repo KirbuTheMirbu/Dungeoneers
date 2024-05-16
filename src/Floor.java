@@ -7,16 +7,26 @@ public class Floor {
     private List<Room> rooms;
     private Random random;
     private Room exitRoom;
+    public Hero hero;
 
     public Floor(int width, int height) {
         this.map = new char[height][width];
         this.rooms = new ArrayList<>();
         this.random = new Random();
+        initializeMap();
+    }
+
+    private void initializeMap() {
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                map[i][j] = '#';
+            }
+        }
     }
 
     public void generateMap() {
         // Generuj pokoje
-        int numRooms = random.nextInt(10) + 10; // Zwiększamy liczbę pokojów
+        int numRooms = random.nextInt(10) + 10;
         for (int i = 0; i < numRooms; i++) {
             int width = random.nextInt(6) + 4;
             int height = random.nextInt(6) + 4;
@@ -55,6 +65,13 @@ public class Floor {
         // Wybierz losowy pokój jako wyjście
         exitRoom = rooms.get(random.nextInt(rooms.size()));
         map[exitRoom.y + exitRoom.height / 2][exitRoom.x + exitRoom.width / 2] = 'E';
+
+        // Umieść bohatera w pierwszym pokoju
+        Room startRoom = rooms.get(0);
+        int startX = startRoom.x + startRoom.width / 2;
+        int startY = startRoom.y + startRoom.height / 2;
+        hero = new Hero(startX, startY);
+        map[hero.y][hero.x] = 'H';
     }
 
     private void createHorizontalTunnel(int startX, int endX, int y) {
@@ -95,6 +112,18 @@ public class Floor {
         createVerticalTunnel(startY, endY, endX);
     }
 
+    public void moveHero(int dx, int dy) {
+        int newX = hero.x + dx;
+        int newY = hero.y + dy;
+
+        if (newX >= 0 && newX < map[0].length && newY >= 0 && newY < map.length && map[newY][newX] != '#') {
+            map[hero.y][hero.x] = '.';
+            hero.x = newX;
+            hero.y = newY;
+            map[hero.y][hero.x] = 'H';
+        }
+    }
+
     public void printMap() {
         for (char[] row : map) {
             for (char cell : row) {
@@ -104,9 +133,11 @@ public class Floor {
         }
     }
 
-    public static void main(String[] args) {
-        Floor floor = new Floor(50, 20); // Rozmiar mapy
-        floor.generateMap();
-        floor.printMap();
+    public boolean isExitReached() {
+        return map[hero.y][hero.x] == 'E';
+    }
+
+    public char[][] getMap() {
+        return map;
     }
 }

@@ -1,12 +1,5 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 public class Room {
-    int x;
-    int y;
-    int width;
-    int height;
+    public int x, y, width, height;
 
     public Room(int x, int y, int width, int height) {
         this.x = x;
