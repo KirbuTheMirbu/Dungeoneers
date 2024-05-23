@@ -63,7 +63,10 @@ public class DungeonCrawler extends JFrame implements KeyListener {
         floorHeight += 5;
         floor = new Floor(floorWidth, floorHeight);
         floor.generateMap();
-        repaint();
+        this.getContentPane().removeAll(); // Remove all components
+        this.add(new MapPanel(floor)); // Add new MapPanel
+        this.revalidate(); // Revalidate the frame to refresh components
+        this.repaint(); // Repaint the frame
     }
 
     public static void main(String[] args) {
