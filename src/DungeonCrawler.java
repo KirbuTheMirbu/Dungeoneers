@@ -15,7 +15,7 @@ public class DungeonCrawler extends JFrame implements KeyListener {
         this.floor.generateMap();
 
         this.setTitle("Dungeon Crawler");
-        this.setSize(800, 600);
+        this.setSize(1015, 435);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.addKeyListener(this);
 
