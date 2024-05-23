@@ -25,6 +25,9 @@ public class Floor {
     }
 
     public void generateMap() {
+        rooms.clear();
+        initializeMap();
+
         // Generuj pokoje
         int numRooms = random.nextInt(10) + 10;
         for (int i = 0; i < numRooms; i++) {
@@ -62,16 +65,18 @@ public class Floor {
             connectRooms(room1, room2);
         }
 
-        // Wybierz losowy pokój jako wyjście
-        exitRoom = rooms.get(random.nextInt(rooms.size()));
-        map[exitRoom.y + exitRoom.height / 2][exitRoom.x + exitRoom.width / 2] = 'E';
-
         // Umieść bohatera w pierwszym pokoju
         Room startRoom = rooms.get(0);
         int startX = startRoom.x + startRoom.width / 2;
         int startY = startRoom.y + startRoom.height / 2;
         hero = new Hero(startX, startY);
         map[hero.y][hero.x] = 'H';
+
+        // Wybierz losowy pokój jako wyjście, upewniając się, że nie jest to ten sam pokój co startowy
+        do {
+            exitRoom = rooms.get(random.nextInt(rooms.size()));
+        } while (exitRoom == startRoom);
+        map[exitRoom.y + exitRoom.height / 2][exitRoom.x + exitRoom.width / 2] = 'E';
     }
 
     private void createHorizontalTunnel(int startX, int endX, int y) {
@@ -134,7 +139,7 @@ public class Floor {
     }
 
     public boolean isExitReached() {
-        return map[hero.y][hero.x] == 'E';
+        return hero.x == (exitRoom.x + exitRoom.width / 2) && hero.y == (exitRoom.y + exitRoom.height / 2);
     }
 
     public char[][] getMap() {
