@@ -64,7 +64,6 @@ public class Floor {
             connectRooms(room1, room2);
         }
 
-        // Umieść bohatera w pierwszym pokoju
         Room startRoom = rooms.get(0);
         int startX = startRoom.x + startRoom.width / 2;
         int startY = startRoom.y + startRoom.height / 2;
