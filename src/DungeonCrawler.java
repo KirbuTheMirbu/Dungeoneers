@@ -7,15 +7,19 @@ public class DungeonCrawler extends JFrame implements KeyListener {
     private Floor floor;
     private int floorWidth;
     private int floorHeight;
+    private int numRooms;
+    private final int MAX_WIDTH = 100;
+    private final int MAX_HEIGHT = 50;
 
     public DungeonCrawler(int initialWidth, int initialHeight) {
         this.floorWidth = initialWidth;
         this.floorHeight = initialHeight;
+        this.numRooms = 10;
         this.floor = new Floor(floorWidth, floorHeight);
-        this.floor.generateMap();
+        this.floor.generateMap(numRooms);
 
         this.setTitle("Dungeon Crawler");
-        this.setSize(1015, 435);
+        this.setSize(800, 600);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.addKeyListener(this);
 
@@ -59,14 +63,19 @@ public class DungeonCrawler extends JFrame implements KeyListener {
     }
 
     private void nextFloor() {
-        floorWidth += 10;
-        floorHeight += 5;
+        if (floorWidth < MAX_WIDTH) {
+            floorWidth += 5;
+        }
+        if (floorHeight < MAX_HEIGHT) {
+            floorHeight += 2;
+        }
+        numRooms += 2; // Zwiększ liczbę pokoi
         floor = new Floor(floorWidth, floorHeight);
-        floor.generateMap();
-        this.getContentPane().removeAll(); // Remove all components
-        this.add(new MapPanel(floor)); // Add new MapPanel
-        this.revalidate(); // Revalidate the frame to refresh components
-        this.repaint(); // Repaint the frame
+        floor.generateMap(numRooms);
+        this.getContentPane().removeAll(); // Usuń wszystkie komponenty
+        this.add(new MapPanel(floor)); // Dodaj nowy MapPanel
+        this.revalidate(); // Przebuduj ramkę, aby odświeżyć komponenty
+        this.repaint(); // Odśwież ramkę
     }
 
     public static void main(String[] args) {
