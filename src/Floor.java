@@ -24,12 +24,11 @@ public class Floor {
         }
     }
 
-    public void generateMap() {
+    public void generateMap(int numRooms) {
         rooms.clear();
         initializeMap();
 
         // Generuj pokoje
-        int numRooms = random.nextInt(10) + 10;
         for (int i = 0; i < numRooms; i++) {
             int width = random.nextInt(6) + 4;
             int height = random.nextInt(6) + 4;
