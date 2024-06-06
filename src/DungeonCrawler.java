@@ -8,7 +8,7 @@ public class DungeonCrawler extends JFrame implements KeyListener {
     private int floorWidth;
     private int floorHeight;
     private int numRooms;
-    private final int MAX_WIDTH = 100;
+    private final int MAX_WIDTH = 95;
     private final int MAX_HEIGHT = 50;
 
     public DungeonCrawler(int initialWidth, int initialHeight) {
